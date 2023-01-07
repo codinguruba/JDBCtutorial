@@ -14,7 +14,7 @@ public class Tutorial {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection(url,uname,pwd);
             Statement st = con.createStatement();
-            //print those name whose club is United//
+            //print those name whose club is PSG//
             String sql = "select name from player where club='PSG'";
             ResultSet rs = st.executeQuery(sql);
             
