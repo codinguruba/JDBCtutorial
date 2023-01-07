@@ -1,5 +1,5 @@
 // Get all records//
-
+package jdbctutorial;
 
 import java.sql.*;
 
