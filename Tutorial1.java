@@ -9,7 +9,6 @@ public class Tutorial1 {
         String uname = "root";
         String pwd = "";
         
-        
         try {
             //Load Driver//
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -26,9 +25,7 @@ public class Tutorial1 {
             }
             //connection close//
             con.close();
-            
-            
-            
+                
         } 
         catch (Exception ex) {
             System.out.println(ex);
