@@ -1,0 +1,46 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import static spark.Spark.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        String uname = "root";
+        String url = "jdbc:mysql://localhost:3306/user";
+        String pwd = "";
+        try {
+            Connection conn = DriverManager.getConnection(url, uname, pwd);
+            post("/test", (request, response) -> {
+                response.type("application/json");
+                String name = request.queryParams("name");
+                String address = request.queryParams("address");
+                String age = request.queryParams("age");
+                String sql = "INSERT INTO mytable (name, address, age) VALUES (?, ?, ?)";
+                try (PreparedStatement st = conn.prepareStatement(sql)) {
+                    st.setString(1, name);
+                    st.setString(2, address);
+                    st.setString(3, age);
+                    int rowsInserted = st.executeUpdate();
+                    if(rowsInserted == 0){
+                        response.status(500); 
+                        return "Error inserting record";
+                    }
+                    else{
+                        response.status(201);
+                        return "Successfully inserted";
+                    }
+                } catch (SQLException ex) {
+                    response.status(500); 
+                    return "Error inserting record";
+                }
+            });
+            after((request, response) -> {
+                conn.close();
+            });
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+}
